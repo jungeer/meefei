@@ -16,8 +16,6 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
   background: linear-gradient(
     165deg,
     #fef6f8 0%,
@@ -27,8 +25,7 @@ body {
   );
   font-family: $font-serif;
   color: $color-text;
-  padding: 1.5rem;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 /* 多巴胺色块：粉色、珊瑚、薄荷、薰衣草光晕 */
@@ -37,61 +34,106 @@ body::before {
   position: fixed;
   inset: -50%;
   background:
-    radial-gradient(
-      ellipse 60% 50% at 15% 30%,
-      rgba(255, 150, 180, 0.4) 0%,
-      transparent 55%
-    ),
-    radial-gradient(
-      ellipse 50% 45% at 85% 25%,
-      rgba(255, 180, 130, 0.35) 0%,
-      transparent 50%
-    ),
-    radial-gradient(
-      ellipse 55% 40% at 25% 75%,
-      rgba(150, 220, 220, 0.35) 0%,
-      transparent 50%
-    ),
-    radial-gradient(
-      ellipse 50% 50% at 80% 70%,
-      rgba(200, 170, 255, 0.3) 0%,
-      transparent 50%
-    );
+    radial-gradient(ellipse 60% 50% at 15% 30%, rgba(255, 150, 180, 0.4) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 45% at 85% 25%, rgba(255, 180, 130, 0.35) 0%, transparent 50%),
+    radial-gradient(ellipse 55% 40% at 25% 75%, rgba(150, 220, 220, 0.35) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 50% at 80% 70%, rgba(200, 170, 255, 0.3) 0%, transparent 50%);
   animation: bgFloat 18s ease-in-out infinite alternate;
   z-index: 0;
   pointer-events: none;
 }
 
 @keyframes bgFloat {
-  0% {
-    transform: translate(0, 0) scale(1);
-  }
-  100% {
-    transform: translate(-3%, -2%) scale(1.08);
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(-3%, -2%) scale(1.08); }
+}
+
+/* 布局 */
+.app {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  padding: 1rem 1.5rem;
+  flex-shrink: 0;
+}
+
+.nav {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+
+  &__link {
+    color: rgba(100, 70, 120, 0.7);
+    text-decoration: none;
+    transition: color 0.3s;
+
+    &:hover {
+      color: $color-primary;
+    }
+
+    &--active {
+      color: $color-primary;
+      font-weight: 500;
+    }
   }
 }
 
-.anniversary {
-  position: relative;
-  z-index: 1;
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.5rem;
+}
+
+/* 页面通用 */
+.page-title {
+  font-size: 1.5rem;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  color: rgba(80, 60, 100, 0.9);
+  margin-bottom: 0.5rem;
+}
+
+.page-subtitle {
+  font-size: 0.85rem;
+  color: $color-date;
+  letter-spacing: 0.15em;
+  margin-bottom: 2rem;
+}
+
+/* 首页 */
+.page-home {
   text-align: center;
+}
 
-  &__greeting {
-    font-size: 0.9rem;
-    font-weight: 300;
-    letter-spacing: 0.15em;
-    color: $color-greeting;
-    margin-bottom: 1.25rem;
-    opacity: 0;
-    animation: fadeInUp 1s ease-out 0s forwards;
-  }
+.greeting {
+  font-size: 0.9rem;
+  font-weight: 300;
+  letter-spacing: 0.15em;
+  color: $color-greeting;
+  margin-bottom: 1.25rem;
+  opacity: 0;
+  animation: fadeInUp 1s ease-out 0s forwards;
 
-  &__greeting-name {
+  &__name {
     color: $color-primary;
     font-weight: 500;
     letter-spacing: 0.25em;
     margin-left: 0.35em;
   }
+}
+
+.anniversary-counter {
+  text-align: center;
 
   &__label {
     font-size: 0.7rem;
@@ -104,8 +146,7 @@ body::before {
     animation: fadeInUp 1s ease-out 0.2s forwards;
   }
 
-  &__start-date {
-    font-family: $font-serif;
+  &__date {
     font-size: 0.85rem;
     font-weight: 300;
     letter-spacing: 0.2em;
@@ -116,7 +157,6 @@ body::before {
   }
 
   &__days {
-    font-family: $font-serif;
     font-size: clamp(3.5rem, 14vw, 7rem);
     font-weight: 300;
     letter-spacing: 0.02em;
@@ -126,7 +166,7 @@ body::before {
     animation: fadeInUp 1.2s ease-out 0.6s forwards;
   }
 
-  &__days-number {
+  &__number {
     display: inline-block;
     color: $color-primary;
     font-weight: 500;
@@ -134,25 +174,111 @@ body::before {
   }
 }
 
-@keyframes softPulse {
-  0%,
-  100% {
-    opacity: 1;
-    transform: scale(1);
+/* 时光轴 */
+.page-timeline {
+  width: 100%;
+  max-width: 28rem;
+  text-align: center;
+}
+
+.timeline {
+  list-style: none;
+  text-align: left;
+  position: relative;
+  padding-left: 1.5rem;
+  border-left: 1px solid rgba(120, 90, 140, 0.25);
+  margin: 0 auto 2rem;
+
+  &__item {
+    position: relative;
+    padding-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeInUp 0.6s ease-out forwards;
+
+    &:last-child {
+      padding-bottom: 0;
+    }
   }
-  50% {
-    opacity: 0.85;
-    transform: scale(1.01);
+
+  &__date {
+    font-size: 0.75rem;
+    color: $color-date;
+    letter-spacing: 0.1em;
+  }
+
+  &__dot {
+    position: absolute;
+    left: -1.65rem;
+    top: 0.25rem;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: $color-primary;
+  }
+
+  &__content {
+    margin-top: 0.25rem;
+  }
+
+  &__title {
+    font-size: 1rem;
+    font-weight: 400;
+    color: rgba(80, 60, 100, 0.9);
+  }
+
+  &__desc {
+    font-size: 0.8rem;
+    color: $color-date;
+    margin-top: 0.25rem;
   }
 }
 
+.timeline-tip {
+  font-size: 0.85rem;
+  color: $color-greeting;
+}
+
+/* 关于 */
+.page-about {
+  text-align: center;
+}
+
+.about-content {
+  margin-top: 1rem;
+}
+
+.about__text {
+  font-size: 1rem;
+  color: rgba(80, 60, 100, 0.85);
+  margin-bottom: 0.75rem;
+  letter-spacing: 0.1em;
+}
+
+.about__date {
+  font-size: 0.9rem;
+  color: $color-date;
+  margin-top: 1.5rem;
+  letter-spacing: 0.15em;
+}
+
+/* 动画 */
+@keyframes softPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(1.01); }
+}
+
 @keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(28px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 路由过渡 */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
