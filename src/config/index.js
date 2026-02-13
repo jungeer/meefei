@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 
 /** 纪念日起始日期 */
-const START_DATE_STR = "1999-02-20";
+const START_DATE_STR = "1800-02-20";
 
 /** dayjs 对象 */
 export const START_DATE = dayjs(START_DATE_STR);
