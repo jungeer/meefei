@@ -231,6 +231,21 @@ body::before {
     color: $color-date;
     margin-top: 0.25rem;
   }
+
+  &__status {
+    display: inline-block;
+    font-size: 0.75rem;
+    margin-top: 0.35rem;
+    letter-spacing: 0.05em;
+
+    &--passed {
+      color: rgba(100, 70, 120, 0.6);
+    }
+
+    &--upcoming {
+      color: $color-primary;
+    }
+  }
 }
 
 .timeline-tip {
