@@ -87,6 +87,7 @@ function toChineseNumberOver10k(n) {
 function getMilestoneLabel(days) {
   if (days === 1) return { title: "在一起", desc: "我们开始的第一天" };
   if (days === 183) return { title: "半年纪念", desc: "我们走过半年" };
+  if (days === 666) return { title: "六六六日 ❤️", desc: "666 天纪念日快乐" };
 
   // 周年优先：一周年、两周年、十二周年……
   const years = Math.floor(days / 365);
@@ -124,8 +125,9 @@ function generateMilestoneDays(todayDays) {
     set.add(d);
   }
 
-  // 半年（约 183 天）
+  // 半年（约 183 天）、666 天纪念
   if (todayDays >= 83 || nextHundred >= 200) set.add(183);
+  if (todayDays >= 566 || nextHundred >= 700) set.add(666);
 
   // 周年：365, 730, 1095...
   const yearsAhead = Math.ceil((todayDays + 1) / 365) + 1;
