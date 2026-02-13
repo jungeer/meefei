@@ -1,14 +1,13 @@
 import { ref, onMounted } from 'vue'
+import dayjs from 'dayjs'
 
-const START_DATE = new Date(2024, 1, 20) // 2024.02.20
+const START_DATE = dayjs('2024-02-20')
 
 /** 纪念日计时：从起始日算起，当天算第 1 天 */
 export function getAnniversaryDays() {
-  const today = new Date()
-  START_DATE.setHours(0, 0, 0, 0)
-  today.setHours(0, 0, 0, 0)
-  const diffMs = today - START_DATE
-  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24))
+  const today = dayjs().startOf('day')
+  const start = START_DATE.startOf('day')
+  const diffDays = today.diff(start, 'day')
   return Math.max(1, diffDays + 1)
 }
 

@@ -1,21 +1,17 @@
 import { computed } from 'vue'
+import dayjs from 'dayjs'
 import { getAnniversaryDays } from './useAnniversary'
 
-const START_DATE = new Date(2024, 1, 20)
+const START_DATE = dayjs('2024-02-20')
 
 /** 根据起始日 + 天数得到日期字符串 */
 function formatDate(date) {
-  const y = date.getFullYear()
-  const m = String(date.getMonth() + 1).padStart(2, '0')
-  const d = String(date.getDate()).padStart(2, '0')
-  return `${y}.${m}.${d}`
+  return date.format('YYYY.MM.DD')
 }
 
 /** 根据天数计算日期（第 1 天 = 起始日当天） */
 function addDays(days) {
-  const d = new Date(START_DATE.getTime())
-  d.setDate(d.getDate() + days - 1)
-  return d
+  return START_DATE.add(days - 1, 'day')
 }
 
 /** 根据天数动态生成标题与描述 */
@@ -73,13 +69,14 @@ export function useTimeline() {
 
     return milestoneDays.map((days) => {
       const date = addDays(days)
+      const dateStr = formatDate(date)
       const { title, desc } = getMilestoneLabel(days)
       const passed = todayDays >= days
       const diff = passed ? todayDays - days : days - todayDays
 
       return {
         days,
-        date: formatDate(date),
+        date: dateStr,
         title,
         desc,
         passed,
