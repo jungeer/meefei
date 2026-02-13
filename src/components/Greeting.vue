@@ -6,6 +6,6 @@ const greeting = useGreeting()
 
 <template>
   <p class="greeting">
-    {{ greeting }}<span class="greeting__name">小慧</span>
+    {{ greeting }}，<span class="greeting__name">小慧</span>
   </p>
 </template>
